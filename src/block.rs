@@ -22,7 +22,7 @@ impl Debug for Block {
     }
 }
 
-impl Block {
+impl Block {  /* FINGERPRINT */
        pub fn new(index:u32, timestamp:u128, prev_block_hash:Hash, payload:String) ->Self {
            Block {
                index,
@@ -35,4 +35,16 @@ impl Block {
        }
     }
 
-  
+    impl Hashable for Block{
+        fn bytes(&self)-> Vec<u8>{
+            let mut bytes= vec![];
+    
+            bytes.extend(u32_bytes(&self.index));
+            bytes.extend(&u128_bytes(&self.timestamp));
+            bytes.extend(&self.prev_block_hash);
+            bytes.extend(&u64_bytes(&self.nonce));
+            bytes.extend(self.payload.as_bytes());
+    
+            bytes
+        }
+     } 
